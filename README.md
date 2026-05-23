@@ -5,9 +5,6 @@ An interactive scrollytelling visualization documenting the displacement of Asia
 
 ---
 
-
----
-
 ## Data Sources
 
 | Data | Source |
@@ -21,10 +18,6 @@ An interactive scrollytelling visualization documenting the displacement of Asia
 | ~50% income spent on rent | MIT DRAN & Chinese Progressive Association |
 | 10+ year affordable housing waitlist | The Scope Boston |
 | All resident quotes | [The Scope Boston — Cao, Chen & Hu (April 8, 2025)](https://thescopeboston.org/9791/housing/why-is-chinatown-becoming-less-chinese/) |
-
----
-
----
 
 ---
 

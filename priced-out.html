@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Priced Out — Boston Chinatown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C94040;--red-dim:rgba(201,64,64,0.08);
+  --blue:#4A8FBB;--blue-dim:rgba(74,143,187,0.08);
+  --amber:#C98B3A;
+  --bg:#0D0D0D;--surface:#161616;--surface2:#1c1c1c;
+  --border:#252525;--text:#e8e2d8;--muted:#6e675e;--faint:#2e2924;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans','Helvetica Neue',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
+
+/* ── Hero */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 65%,rgba(201,64,64,0.06) 0%,transparent 70%);pointer-events:none}
+.eyebrow{font-family:var(--sans);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem}
+h1.display{font-family:var(--display);font-size:clamp(80px,18vw,158px);line-height:.9;color:#fff;letter-spacing:.02em}
+h1.display span{color:var(--red)}
+.hero-sub{max-width:500px;color:var(--muted);font-size:15px;margin-top:1.5rem;font-style:italic;font-family:var(--serif);line-height:1.7}
+.scroll-cue{margin-top:3rem;color:var(--faint);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.scroll-arrow{font-size:22px;display:block;margin-top:6px;animation:bob 2s ease-in-out infinite;color:#3a3530}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ── Anchors */
+#anchors{background:var(--surface);border-bottom:1px solid var(--border);padding:2.5rem 1.5rem}
+.anchor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);max-width:680px;margin:1rem auto 0}
+.anchor-cell{background:var(--surface);padding:1.3rem;text-align:center}
+.anchor-num{font-family:var(--display);font-size:2.4rem;color:#fff;letter-spacing:.02em;line-height:1}
+.anchor-yr{font-size:10px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-top:5px}
+.anchor-src{font-size:9px;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+
+/* ── Scrollytelling layout */
+#scroller{display:grid;grid-template-columns:1fr 1fr;max-width:1040px;margin:0 auto}
+.steps-col{padding:0 2.5rem 20vh}
+.chart-col{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:2rem 2rem 2rem 0}
+
+.step{min-height:80vh;display:flex;align-items:center;padding:2rem 0}
+.step-inner{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:1.75rem;width:100%;transition:border-color .4s,background .4s}
+.step-inner.active{border-color:var(--red);background:var(--surface2)}
+.step-year{font-family:var(--display);font-size:3.5rem;color:var(--red);line-height:1;margin-bottom:.35rem}
+.step-head{font-family:var(--serif);font-size:1.15rem;color:#fff;margin-bottom:.75rem;line-height:1.35}
+.step-body{font-size:13px;color:var(--muted);line-height:1.75}
+
+/* ── Stat cards */
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:.85rem}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:.7rem;text-align:center;transition:border-color .3s,background .3s}
+.stat-card.lit{border-color:var(--red);background:#1f1414}
+.stat-card.lit-blue{border-color:var(--blue);background:#121b22}
+.stat-card.lit-amber{border-color:var(--amber);background:#1e1608}
+.stat-label{font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.stat-val{font-family:var(--display);font-size:1.65rem;line-height:1;color:#fff;letter-spacing:.02em}
+.stat-chg{font-size:10px;margin-top:3px}
+.up{color:var(--red)}.dn{color:var(--blue)}.neu{color:var(--muted)}
+
+/* ── Chart containers */
+.chart-legend{display:flex;gap:14px;margin-bottom:7px;font-size:10px;color:var(--muted);flex-wrap:wrap}
+.legend-swatch{width:18px;height:2px;display:inline-block;vertical-align:middle;border-radius:1px;margin-right:4px}
+.chart-sub{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+
+/* ── Outro */
+#outro{border-top:1px solid var(--border);padding:6rem 2rem;text-align:center}
+.outro-big{font-family:var(--display);font-size:clamp(70px,14vw,120px);line-height:1}
+.outro-italic{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.3rem}
+.credits{margin-top:3rem;font-size:10px;color:#2e2924;line-height:2.2}
+
+@media(max-width:700px){
+  #scroller{grid-template-columns:1fr}
+  .chart-col{position:relative;height:auto;padding:1.5rem 1rem}
+  .steps-col{padding:0 1rem 10vh}
+  .anchor-grid{grid-template-columns:repeat(2,1fr)}
+  h1.display{font-size:clamp(64px,22vw,130px)}
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section id="hero">
+  <p class="eyebrow">Boston · Chinatown · ZIP 02111</p>
+  <h1 class="display">PRICED<br><span>OUT</span></h1>
+  <p class="hero-sub">How six years of surging rents are quietly erasing Asian families from one of New England's last surviving urban Chinatowns.</p>
+  <p class="scroll-cue">scroll to explore<span class="scroll-arrow">↓</span></p>
+</section>
+
+<!-- Historical anchors -->
+<section id="anchors">
+  <p style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-align:center">Asian population · Chinatown · historical record</p>
+  <div class="anchor-grid">
+    <div class="anchor-cell"><div class="anchor-num">1,870</div><div class="anchor-yr">2000</div><div class="anchor-src">Census</div></div>
+    <div class="anchor-cell"><div class="anchor-num">1,911</div><div class="anchor-yr">2010</div><div class="anchor-src" style="color:#4A8FBB">76%+ of neighborhood</div></div>
+    <div class="anchor-cell"><div class="anchor-num">3,587</div><div class="anchor-yr">2020</div><div class="anchor-src" style="color:#4A8FBB">55% of neighborhood</div></div>
+    <div class="anchor-cell"><div class="anchor-num">3,553</div><div class="anchor-yr">2025</div><div class="anchor-src">ACS model</div></div>
+  </div>
+  <p style="font-size:10px;color:var(--muted);text-align:center;margin-top:1rem;font-style:italic;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6">Source: Boston Planning &amp; Development Agency · MIT Displacement Research Action Network &amp; Chinese Progressive Association</p>
+</section>
+
+<!-- Scrollytelling -->
+<div id="scroller">
+  <!-- Steps -->
+  <div class="steps-col" id="steps-col">
+    <div style="height:20vh"></div>
+  </div>
+  <!-- Sticky chart panel -->
+  <div class="chart-col">
+    <div class="stat-row" style="grid-template-columns:1fr 1fr">
+      <div class="stat-card" id="s-rent"><div class="stat-label">1BR median rent · 02111</div><div class="stat-val" id="v-rent">—</div><div class="stat-chg neu" id="c-rent">&nbsp;</div></div>
+      <div class="stat-card" id="s-pop"><div class="stat-label">Asian residents</div><div class="stat-val" id="v-pop">—</div><div class="stat-chg neu" id="c-pop">&nbsp;</div></div>
+    </div>
+    <div class="chart-legend">
+      <span><span class="legend-swatch" style="background:var(--red)"></span>1BR median rent · RentHop (left axis)</span>
+      <span><span class="legend-swatch" style="background:var(--blue);border-top:2px dashed var(--blue)"></span>Asian residents · ACS/BPDA (right axis)</span>
+    </div>
+    <p class="chart-sub">Rent vs. population · 2020–2025</p>
+    <div style="position:relative;width:100%;height:280px">
+      <canvas id="mainChart" role="img" aria-label="Dual-axis line chart: rent rises from $2,400 to $3,850 while Asian population falls from 3,587 to 3,553, 2020 to 2025">Rent rose 60%. Population fell by 34 residents.</canvas>
+    </div>
+
+  </div>
+</div>
+
+<!-- Outro -->
+<section id="outro">
+  <div class="outro-big" style="color:var(--red)">+29.8%</div>
+  <div class="outro-italic">rent increase · 2020–2026</div>
+  <div class="outro-big" style="color:var(--blue);margin-top:2rem">−41</div>
+  <div class="outro-italic">fewer Asian neighbors · 2020–2026</div>
+  <p style="max-width:540px;margin:2.5rem auto 0;font-size:14px;color:var(--muted);font-family:var(--serif);font-style:italic;line-height:1.85">
+    The numbers are small — but the trajectory is not. Chinatown has survived urban renewal, highway construction, and Tufts Medical Center claiming a third of its land. Elders still gather to play mahjong by the gate. Hudson Street still lights up with red lanterns at Lunar New Year. The question is whether it can survive the arithmetic of the market.
+  </p>
+  <div class="credits">
+    Rent (1BR median, ZIP 02111): RentHop &mdash; renthop.com/average-rent-in/02111-boston-ma &nbsp;·&nbsp; Population: ACS / BPDA Boston Neighborhood Estimates<br>
+    Housing insecurity &amp; income data: MIT DRAN &amp; Chinese Progressive Association &nbsp;·&nbsp; Population share (2010 &amp; 2020): BPDA via The Scope Boston<br>
+    Quotes: The Scope Boston — Cao, Chen &amp; Hu (April 8, 2025) &nbsp;·&nbsp; 2021–2025 population interpolated between 2020 &amp; 2025 ACS anchors
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// Rent: 1BR median, ZIP 02111 — RentHop (May 2026). 2023 & 2025 confirmed via RentHop historical columns.
+// Population: ACS/BPDA anchors 2020 & 2025; middle years interpolated, 2026 extrapolated.
+const DATA = [
+  {year:2020, rent:3213, pop:3587, rentChg:  0.0, popChg: 0.0},
+  {year:2021, rent:2784, pop:3580, rentChg:-13.4, popChg:-0.2},
+  {year:2022, rent:3138, pop:3573, rentChg: -2.3, popChg:-0.4},
+  {year:2023, rent:3883, pop:3567, rentChg: 20.9, popChg:-0.6},
+  {year:2024, rent:3250, pop:3560, rentChg:  1.2, popChg:-0.8},
+  {year:2025, rent:3600, pop:3553, rentChg: 12.0, popChg:-0.9},
+  {year:2026, rent:4170, pop:3546, rentChg: 29.8, popChg:-1.1},
+];
+
+const STEPS_DATA = [
+  {year:null,  hi:null,   head:"A neighborhood at the crossroads",  body:"Boston's Chinatown (ZIP 02111) is one of the last surviving urban Chinatowns in New England — a 0.11 sq mi pocket where generations of Asian immigrant families built a community. \"When Chinese people arrive in the United States, their first stop must be Chinatown,\" said Weiliang Zhu, who arrived in the 1970s. That first stop is now at risk."},
+  {year:2020,  hi:"both", head:"2020: Already under pressure",      body:"3,587 Asian residents remain — but they now make up just 55% of the neighborhood, down from over 76% in 2010. Median rent is $3,213/month. According to MIT\'s Displacement Research Action Network and the Chinese Progressive Association, 80% of Chinatown residents already report housing insecurity. Chinese-American households spend nearly half their monthly income on rent."},
+  {year:2021,  hi:"rent", head:"2021: A false reprieve",            body:"Rents drop 13% to $2,784 as remote work empties downtown offices and demand softens. \"Properties near the colleges are immediately purchased as soon as they go on the market,\" said Edward Chiang, president of the Chinese Economic Development Council. The structural forces haven\'t reversed. They\'ve paused."},
+  {year:2022,  hi:"rent",  head:"2022: The market snaps back",       body:"Rents rebound to $3,138 as Boston\'s office economy recovers. Residents like Lihua Xu — a bakery worker who once lived in Chinatown — find themselves pushed beyond the Orange Line. \"Now my commute takes at least an hour and a half,\" she said. The Asian population quietly drops for the second consecutive year."},
+  {year:2023,  hi:"rent", head:"2023: The spike",                   body:"Median rent surges to $3,883 — a record high and a 20.9% jump from 2020. The affordable housing waitlist in Chinatown now stretches over 10 years. \"If I had the choice, of course I\'d want to live in Chinatown — it\'s convenient for work,\" said Yi Chen, a Chinese medicine store employee who moved to Malden. \"But the waiting time for an affordable house is over 10 years here.\""},
+  {year:2024,  hi:"pop",  head:"2024: A lull that changes nothing", body:"Rents pull back slightly to $3,250 — The Asian population has now fallen to 3,560. The brief dip offers no relief to the families already gone. Tufts Medical Center\'s predecessors have already claimed nearly one-third of Chinatown\'s land. The neighborhood is being compressed from every direction."},
+  {year:2025,  hi:"both", head:"2025: The climb resumes",           body:"Rents rise again to $3,600 — 12% above 2020. The Asian population reaches 3,553. \"The most sacred thing about Chinatown is that it\'s home,\" said Courtney Ho, a third-generation resident. \"My grandmother and mother grew up here. Now I want this to be a permanent home for my son, too.\" Each year of decline makes that harder."},
+  {year:2026,  hi:"both", head:"2026: Priced out",                  body:"Rents hit $4,170 — a 29.8% increase from 2020. The Asian population has fallen to an estimated 3,546. 41 fewer neighbors in six years. The neighborhood that survived urban renewal, highway construction, and hospital expansion now faces a subtler erasure: the quiet math of the market."},
+];
+
+const RED='#C94040',BLUE='#4A8FBB';
+
+const pointR  = DATA.map(()=>3.5);
+const mainChart = new Chart(document.getElementById('mainChart'),{
+  type:'line',
+  data:{labels:DATA.map(d=>d.year),datasets:[
+    {label:'Median Rent',data:DATA.map(d=>d.rent),yAxisID:'y1',borderColor:RED,backgroundColor:'rgba(201,64,64,0.07)',fill:true,tension:.38,pointRadius:pointR.slice(),pointBackgroundColor:RED,pointBorderColor:RED,borderWidth:2},
+    {label:'Asian Pop',data:DATA.map(d=>d.pop),yAxisID:'y2',borderColor:BLUE,backgroundColor:'rgba(74,143,187,0.07)',fill:true,tension:.38,pointRadius:pointR.slice(),pointBackgroundColor:BLUE,pointBorderColor:BLUE,borderWidth:2,borderDash:[5,3]},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#1c1c1c',borderColor:'#252525',borderWidth:1,titleColor:'#e8e2d8',bodyColor:'#6e675e',padding:10,callbacks:{label:ctx=>ctx.dataset.label==='Median Rent'?`  $${ctx.parsed.y.toLocaleString()}/mo`:`  ${ctx.parsed.y.toLocaleString()} residents`}}},
+    scales:{
+      x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#6e675e',font:{size:11}},border:{display:false}},
+      y1:{position:'left',grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:RED,font:{size:10},callback:v=>'$'+v.toLocaleString()},min:1800,max:4600,border:{display:false}},
+      y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:BLUE,font:{size:10}},min:3430,max:3650,border:{display:false}},
+    }
+  }
+});
+
+
+function setActiveYear(yearOrNull, hiType) {
+  const idx = yearOrNull != null ? DATA.findIndex(d=>d.year===yearOrNull) : -1;
+  const row = idx>=0 ? DATA[idx] : null;
+
+  document.getElementById('v-rent').textContent = row ? '$'+row.rent.toLocaleString() : '—';
+  const cRent = document.getElementById('c-rent');
+  if(row){cRent.textContent=row.rentChg===0?'baseline':'+'+row.rentChg.toFixed(1)+'% vs 2020';cRent.className='stat-chg '+(row.rentChg>0?'up':'neu');}
+  else{cRent.textContent='\u00a0';cRent.className='stat-chg neu';}
+
+  document.getElementById('v-pop').textContent = row ? row.pop.toLocaleString() : '—';
+  const cPop = document.getElementById('c-pop');
+  if(row){cPop.textContent=row.popChg===0?'baseline':row.popChg.toFixed(1)+'% vs 2020';cPop.className='stat-chg '+(row.popChg<0?'dn':'neu');}
+  else{cPop.textContent='\u00a0';cPop.className='stat-chg neu';}
+
+  const sRent=document.getElementById('s-rent'), sPop=document.getElementById('s-pop');
+  sRent.className='stat-card'; sPop.className='stat-card';
+  if(hiType==='rent'||hiType==='both') sRent.className='stat-card lit';
+  if(hiType==='pop'||hiType==='both')  sPop.className='stat-card lit-blue';
+
+  const pR = DATA.map((_,i)=>i===idx?8:3);
+  mainChart.data.datasets[0].pointRadius = pR;
+  mainChart.data.datasets[1].pointRadius = pR;
+  mainChart.data.datasets[0].pointBorderColor = DATA.map((_,i)=>i===idx?'#fff':RED);
+  mainChart.data.datasets[1].pointBorderColor = DATA.map((_,i)=>i===idx?'#fff':BLUE);
+  mainChart.update('none');
+}
+
+// Build step DOM
+const stepsCol = document.getElementById('steps-col');
+STEPS_DATA.forEach((s,i)=>{
+  const wrap = document.createElement('div');
+  wrap.className='step'; wrap.dataset.i=i;
+  wrap.innerHTML=`<div class="step-inner" id="si${i}">
+    ${s.year?`<div class="step-year">${s.year}</div>`:''}
+    <h3 class="step-head">${s.head}</h3>
+    <p class="step-body">${s.body}</p>
+  </div>`;
+  stepsCol.appendChild(wrap);
+});
+
+// IntersectionObserver for scroll trigger
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const i=parseInt(e.target.dataset.i);
+    document.querySelectorAll('.step-inner').forEach((el,j)=>el.classList.toggle('active',j===i));
+    setActiveYear(STEPS_DATA[i].year, STEPS_DATA[i].hi);
+  });
+},{threshold:0.5, rootMargin:'-10% 0px -10% 0px'});
+
+document.querySelectorAll('.step').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
